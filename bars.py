@@ -3,44 +3,31 @@ import json
 
 def load_data(filepath):
     with open(filepath, "r") as json_file:
-        return json.load(json_file)
+        return (json.loads(json_file.read()))["features"]
 
 
 def get_biggest_bar(bars):
-    seats_count = []
-    for bar_number in range(len(bars["features"])):
-        seats_count.append(bars["features"][bar_number]["properties"]["Attributes"]["SeatsCount"])
-
-    biggest = seats_count.index(max(seats_count))
-    bar_name = bars["features"][biggest]["properties"]["Attributes"]["Name"]
-    return bar_name
+    biggest_bar = max(bars, key=lambda seats_count: seats_count["properties"]["Attributes"]["SeatsCount"])
+    return biggest_bar["properties"]["Attributes"]["Name"]
 
 
 def get_smallest_bar(bars):
-    seats_count = []
-    for bar_number in range(len(bars["features"])):
-        seats_count.append(bars["features"][bar_number]["properties"]["Attributes"]["SeatsCount"])
-
-    smallest = seats_count.index(min(seats_count))
-    bar_name = bars["features"][smallest]["properties"]["Attributes"]["Name"]
-    return bar_name
+    smallest_bar = min(bars, key=lambda seats_count: seats_count["properties"]["Attributes"]["SeatsCount"])
+    return smallest_bar["properties"]["Attributes"]["Name"]
 
 
 def get_closest_bar(bars, longitude, latitude):
     x, y = longitude, latitude
-    geo = []
-    for bar_number in range(len(bars["features"])):
-        place = bars["features"][bar_number]["geometry"]["coordinates"]
-        distance = abs(x-place[0]) + abs(y-place[1])
-        geo.append(distance)
-
-    closest = geo.index(min(geo))
-    bar_name = bars["features"][closest]["properties"]["Attributes"]["Name"]
-    return bar_name
+    closest_bar = min(bars, key=lambda geo: abs(sum(geo["geometry"]["coordinates"]) - (x+y)))
+    return closest_bar["properties"]["Attributes"]["Name"]
 
 
 if __name__ == "__main__":
     file_path = input("Введите путь к файлу json: ")
     bars = load_data(file_path)
-    #longitude = float(input("Введите вашу геопозицию(долготу): "))
-    #latitude = float(input("Введите вашу геопозицию(широту): "))
+    longitude = float(input("Введите вашу геопозицию(долготу): "))
+    latitude = float(input("Введите вашу геопозицию(широту): "))
+    
+    print(get_biggest_bar(bars))
+    print(get_smallest_bar(bars))
+    print(get_closest_bar(bars, longitude, latitude))
