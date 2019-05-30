@@ -13,11 +13,12 @@
 ```bash
 
 $ python bars.py # possibly requires call of python3 executive instead of just python
+# Введите путь к файлу json: /home/xatt/Python/devman/1796.json
 # Введите вашу геопозицию(долготу): 37.6458122345481
 # Введите вашу геопозицию(широту): 55.7848152613212
 # Самый большой бар - Arena by Soho Family.
 # Самый маленький бар - Бар «ПОПКОРН».
-# Самый близкий бар - Fusion
+# Самый близкий бар - Шишка.
 
 ```
 

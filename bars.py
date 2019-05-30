@@ -27,7 +27,7 @@ if __name__ == "__main__":
     bars = load_data(file_path)
     longitude = float(input("Введите вашу геопозицию(долготу): "))
     latitude = float(input("Введите вашу геопозицию(широту): "))
-    
-    print(get_biggest_bar(bars))
-    print(get_smallest_bar(bars))
-    print(get_closest_bar(bars, longitude, latitude))
+
+    print("Самый большой бар - {}.".format(get_biggest_bar(bars)))
+    print("Самый маленький бар - {}.".format(get_smallest_bar(bars)))
+    print("Самый близкий бар - {}.".format(get_closest_bar(bars, longitude, latitude)))
