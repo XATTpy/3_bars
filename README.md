@@ -5,6 +5,7 @@
 # Как запустить
 
 Скрипт требует для своей работы установленного интерпретатора Python версии 3.5
+Скачайте файл json по ссылке: https://drive.google.com/file/d/1sE729RoUCii5svp9IIaHrK_NSR6xGlxZ/view?usp=sharing
 
 Запуск на Linux:
 
