@@ -1,5 +1,4 @@
 import json
-import sys
 
 
 def load_data(filepath):
@@ -29,10 +28,10 @@ if __name__ == "__main__":
             file_path = input("Введите путь к файлу json: ")
             bars = load_data(file_path)
             break
-        except Exception:
-            flag = input("Файл не найден или имеет неверный формат. Введите 'y' для повторного ввода, 'n' - для выхода из скрипта: ")
-            if flag == "n":
-                sys.exit()
+        except FileNotFoundError:
+            print("Файл не найден.")
+        except ValueError:
+            print("Файл имеет неверный формат.")
 
 
     while True:
