@@ -22,27 +22,24 @@ def get_closest_bar(bars, longitude, latitude):
     return closest_bar["properties"]["Attributes"]["Name"]
 
 
-if __name__ == "__main__":
-    while True:
-        try:
-            file_path = input("Введите путь к файлу json: ")
-            bars = load_data(file_path)
-            break
-        except FileNotFoundError:
-            print("Файл не найден.")
-        except ValueError:
-            print("Файл имеет неверный формат.")
+while True:
+    try:
+        file_path = input("Введите путь к файлу json: ")
+        bars = load_data(file_path)
+        break
+    except FileNotFoundError:
+        print("Файл не найден.")
+    except ValueError:
+        print("Файл имеет неверный формат.")
 
+while True:
+    try:
+        longitude = float(input("Введите вашу геолокацию(долготу): "))
+        latitude = float(input("Введите вашу геолокацию(широту): "))
+        break
+    except ValueError:
+        print("Неверный формат геолокации. Вводите координаты в формате чисел.")
 
-    while True:
-        try:
-            longitude = float(input("Введите вашу геолокацию(долготу): "))
-            latitude = float(input("Введите вашу геолокацию(широту): "))
-            break
-        except ValueError:
-            print("Неверный формат геолокации. Вводите координаты в формате чисел.")
-
-
-    print("Самый большой бар - {}.".format(get_biggest_bar(bars)))
-    print("Самый маленький бар - {}.".format(get_smallest_bar(bars)))
-    print("Самый близкий бар - {}.".format(get_closest_bar(bars, longitude, latitude)))
+print("Самый большой бар - {}.".format(get_biggest_bar(bars)))
+print("Самый маленький бар - {}.".format(get_smallest_bar(bars)))
+print("Самый близкий бар - {}.".format(get_closest_bar(bars, longitude, latitude)))
