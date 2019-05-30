@@ -40,10 +40,7 @@ def get_closest_bar(bars, longitude, latitude):
 
 
 if __name__ == "__main__":
-    bars = load_data("1796.json")
-    longitude = float(input("Введите вашу геопозицию(долготу): "))
-    latitude = float(input("Введите вашу геопозицию(широту): "))
-
-    get_biggest_bar(bars)
-    get_smallest_bar(bars)
-    get_closest_bar(bars, longitude, latitude)
+    file_path = input("Введите путь к файлу json: ")
+    bars = load_data(file_path)
+    #longitude = float(input("Введите вашу геопозицию(долготу): "))
+    #latitude = float(input("Введите вашу геопозицию(широту): "))
