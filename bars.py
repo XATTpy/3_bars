@@ -1,4 +1,5 @@
 import json
+import sys
 
 
 def load_data(filepath):
@@ -23,10 +24,25 @@ def get_closest_bar(bars, longitude, latitude):
 
 
 if __name__ == "__main__":
-    file_path = input("Введите путь к файлу json: ")
-    bars = load_data(file_path)
-    longitude = float(input("Введите вашу геопозицию(долготу): "))
-    latitude = float(input("Введите вашу геопозицию(широту): "))
+    while True:
+        try:
+            file_path = input("Введите путь к файлу json: ")
+            bars = load_data(file_path)
+            break
+        except Exception:
+            flag = input("Файл не найден или имеет неверный формат. Введите 'y' для повторного ввода, 'n' - для выхода из скрипта: ")
+            if flag == "n":
+                sys.exit()
+
+
+    while True:
+        try:
+            longitude = float(input("Введите вашу геолокацию(долготу): "))
+            latitude = float(input("Введите вашу геолокацию(широту): "))
+            break
+        except ValueError:
+            print("Неверный формат геолокации. Вводите координаты в формате чисел.")
+
 
     print("Самый большой бар - {}.".format(get_biggest_bar(bars)))
     print("Самый маленький бар - {}.".format(get_smallest_bar(bars)))
