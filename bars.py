@@ -13,7 +13,7 @@ def get_biggest_bar(bars):
 
     biggest = seats_count.index(max(seats_count))
     bar_name = bars["features"][biggest]["properties"]["Attributes"]["Name"]
-    print("Самый большой бар - %s." % bar_name)
+    return bar_name
 
 
 def get_smallest_bar(bars):
@@ -23,7 +23,7 @@ def get_smallest_bar(bars):
 
     smallest = seats_count.index(min(seats_count))
     bar_name = bars["features"][smallest]["properties"]["Attributes"]["Name"]
-    print("Самый маленький бар - %s." % bar_name)
+    return bar_name
 
 
 def get_closest_bar(bars, longitude, latitude):
@@ -36,7 +36,7 @@ def get_closest_bar(bars, longitude, latitude):
 
     closest = geo.index(min(geo))
     bar_name = bars["features"][closest]["properties"]["Attributes"]["Name"]
-    print("Самый близкий бар - %s" % bar_name)
+    return bar_name
 
 
 if __name__ == "__main__":
