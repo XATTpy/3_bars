@@ -1,50 +1,62 @@
 import json
 import sys
 from sys import argv
+from functools import partial
 
-# Functions
+
 def load_data(filepath):
     with open(filepath, "r") as json_file:
         return (json.loads(json_file.read()))["features"]
 
 
 def get_biggest_bar(bars):
-    biggest_bar = max(bars, key=bar_size)
-    return biggest_bar["properties"]["Attributes"]
+    biggest_bar = max(bars, key=get_bar_sizes)
+    return biggest_bar
 
 
 def get_smallest_bar(bars):
-    smallest_bar = min(bars, key=bar_size)
-    return smallest_bar["properties"]["Attributes"]
+    smallest_bar = min(bars, key=get_bar_sizes)
+    return smallest_bar
 
 
 def get_closest_bar(bars, longitude, latitude):
-    closest_bar = min(bars, key=bar_distance)
-    return closest_bar["properties"]["Attributes"]
+    x, y = longitude, latitude
+    calculation = partial(get_distances_to_bars, longitude=x, latitude=y)
+    closest_bar = min(bars, key=calculation)
+    return closest_bar
 
 
-# Keys
-def bar_size(bars): return bars["properties"]["Attributes"]["SeatsCount"]
-def bar_distance(bars): return abs(sum(bars["geometry"]["coordinates"]) - (x+y))
+def get_bar_sizes(bars):
+    return bars["properties"]["Attributes"]["SeatsCount"]
 
 
-# Exeptions and variable initialization
-try:
-    file_path = argv[1]
-    bars = load_data(file_path)
-except (IndexError, IsADirectoryError, FileNotFoundError):
-    sys.exit("Введите путь к файлу в качестве аргумента при запуске. Прим.: python3 bars.py /path_to_file/file_name.json")
-except ValueError:
-    sys.exit("Файл имеет неверный формат.")
+def get_distances_to_bars(bars, longitude, latitude):
+    return abs(sum(bars["geometry"]["coordinates"]) - (longitude+latitude))
 
-try:
-    x = float(input("Введите вашу геолокацию(долготу): "))
-    y = float(input("Введите вашу геолокацию(широту): "))
-except ValueError:
-    sys.exit("Неверный формат геолокации. Вводите координаты в числовом формате.")
+
+def show_bar(bar):
+    print (bar["properties"]["Attributes"]["Name"])
 
 
 if __name__ == "__main__":
-    print("Самый большой бар - {}.".format(get_biggest_bar(bars)["Name"]))
-    print("Самый маленький бар - {}.".format(get_smallest_bar(bars)["Name"]))
-    print("Самый близкий бар - {}.".format(get_closest_bar(bars, x, y)["Name"]))
+    try:
+        file_path = argv[1]
+        bars = load_data(file_path)
+    except (IndexError, IsADirectoryError, FileNotFoundError):
+        sys.exit("Введите путь к файлу в качестве аргумента при запуске.")
+    except ValueError:
+        sys.exit("Файл имеет неверный формат.")
+
+    try:
+        longitude = float(input("Введите вашу геолокацию(долготу): "))
+        latitude = float(input("Введите вашу геолокацию(широту): "))
+    except ValueError:
+        sys.exit("Неверный формат геолокации. Вводите координаты в числовом формате.")
+
+
+    print("Самый большой бар - ", end="")
+    show_bar(get_biggest_bar(bars))
+    print("Самый маленький бар - ", end="")
+    show_bar(get_smallest_bar(bars))
+    print("Самый близкий бар - ", end="")
+    show_bar(get_closest_bar(bars, longitude, latitude))
