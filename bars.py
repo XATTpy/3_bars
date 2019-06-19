@@ -42,16 +42,16 @@ if __name__ == "__main__":
     try:
         file_path = argv[1]
         bars = load_data(file_path)
-    except (IndexError, IsADirectoryError, FileNotFoundError):
-        sys.exit("Введите путь к файлу в качестве аргумента при запуске.")
-    except ValueError:
-        sys.exit("Файл имеет неверный формат.")
-
-    try:
         longitude = float(input("Введите вашу геолокацию(долготу): "))
         latitude = float(input("Введите вашу геолокацию(широту): "))
+    except IndexError:
+        sys.exit("Введите путь к файлу в качестве аргумента при запуске.")
+    except IsADirectoryError:
+        sys.exit("Вы ввели путь к файлу, не указав самого файла.")
+    except FileNotFoundError:
+        sys.exit("Такого файла не существует")
     except ValueError:
-        sys.exit("Неверный формат геолокации. Вводите координаты в числовом формате.")
+        sys.exit("Файл/координата имеет неверный формат.")
 
 
     print("Самый большой бар - ", end="")
