@@ -12,8 +12,7 @@
 
 ```bash
 
-$ python bars.py # possibly requires call of python3 executive instead of just python
-# Введите путь к файлу json: /home/xatt/Python/devman/1796.json
+$ python bars.py /path_to_file/file_name.json # possibly requires call of python3 executive instead of just python
 # Введите вашу геопозицию(долготу): 37.6458122345481
 # Введите вашу геопозицию(широту): 55.7848152613212
 # Самый большой бар - Arena by Soho Family.
