@@ -24,18 +24,16 @@ def get_closest_bar(bars, longitude, latitude):
 
 
 # Keys
-bar_size = lambda bars: bars["properties"]["Attributes"]["SeatsCount"]
-bar_distance = lambda bars: abs(sum(bars["geometry"]["coordinates"]) - (x+y))
+def bar_size(bars): return bars["properties"]["Attributes"]["SeatsCount"]
+def bar_distance(bars): return abs(sum(bars["geometry"]["coordinates"]) - (x+y))
 
 
 # Exeptions and variable initialization
 try:
     file_path = argv[1]
     bars = load_data(file_path)
-except IndexError:
+except (IndexError, IsADirectoryError, FileNotFoundError):
     sys.exit("Введите путь к файлу в качестве аргумента при запуске. Прим.: python3 bars.py /path_to_file/file_name.json")
-except FileNotFoundError:
-    sys.exit("Файл не найден.")
 except ValueError:
     sys.exit("Файл имеет неверный формат.")
 
