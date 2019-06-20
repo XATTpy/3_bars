@@ -5,8 +5,13 @@ from functools import partial
 
 
 def load_data(filepath):
-    with open(filepath, "r") as json_file:
-        return (json.loads(json_file.read()))["features"]
+    try:
+        with open(filepath, "r") as json_file:
+            return (json.loads(json_file.read()))["features"]
+    except FileNotFoundError:
+        sys.exit("Такого файла не существует")
+    except ValueError:
+        sys.exit("Файл имеет неверный формат.")
 
 
 def get_biggest_bar(bars):
@@ -44,14 +49,10 @@ if __name__ == "__main__":
         bars = load_data(file_path)
         longitude = float(input("Введите вашу геолокацию(долготу): "))
         latitude = float(input("Введите вашу геолокацию(широту): "))
-    except IndexError:
+    except (IndexError, IsADirectoryError):
         sys.exit("Введите путь к файлу в качестве аргумента при запуске.")
-    except IsADirectoryError:
-        sys.exit("Вы ввели путь к файлу, не указав самого файла.")
-    except FileNotFoundError:
-        sys.exit("Такого файла не существует")
     except ValueError:
-        sys.exit("Файл/координата имеет неверный формат.")
+        sys.exit("Координата имеет неверный формат.")
 
 
     print("Самый большой бар - ", end="")
