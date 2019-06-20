@@ -9,27 +9,27 @@ def load_data(filepath):
 
 
 def get_biggest_bar(bars):
-    biggest_bar = max(bars, key=get_bar_sizes)
+    biggest_bar = max(bars, key=get_bar_size)
     return biggest_bar
 
 
 def get_smallest_bar(bars):
-    smallest_bar = min(bars, key=get_bar_sizes)
+    smallest_bar = min(bars, key=get_bar_size)
     return smallest_bar
 
 
 def get_closest_bar(bars, longitude, latitude):
     x, y = longitude, latitude
-    calculation = partial(get_distances_to_bars, longitude=x, latitude=y)
+    calculation = partial(get_distance_to_bar, longitude=x, latitude=y)
     closest_bar = min(bars, key=calculation)
     return closest_bar
 
 
-def get_bar_sizes(bars):
+def get_bar_size(bars):
     return bars["properties"]["Attributes"]["SeatsCount"]
 
 
-def get_distances_to_bars(bars, longitude, latitude):
+def get_distance_to_bar(bars, longitude, latitude):
     return abs(sum(bars["geometry"]["coordinates"]) - (longitude+latitude))
 
 
@@ -37,13 +37,18 @@ def show_bar(bar):
     print (bar["properties"]["Attributes"]["Name"])
 
 
-def main():
+def show_bars():
     try:
         file_path = argv[1]
         bars = load_data(file_path)
         longitude = float(input("Введите вашу геолокацию(долготу): "))
         latitude = float(input("Введите вашу геолокацию(широту): "))
-        return bars, longitude, latitude
+        print("Самый большой бар - ", end="")
+        show_bar(get_biggest_bar(bars))
+        print("Самый маленький бар - ", end="")
+        show_bar(get_smallest_bar(bars))
+        print("Самый близкий бар - ", end="")
+        show_bar(get_closest_bar(bars, longitude, latitude))
     except (IndexError, IsADirectoryError):
         quit("Введите путь к файлу в качестве аргумента при запуске.")
     except FileNotFoundError:
@@ -55,11 +60,4 @@ def main():
 
 
 if __name__ == "__main__":
-    bars, longitude, latitude = main()
-
-    print("Самый большой бар - ", end="")
-    show_bar(get_biggest_bar(bars))
-    print("Самый маленький бар - ", end="")
-    show_bar(get_smallest_bar(bars))
-    print("Самый близкий бар - ", end="")
-    show_bar(get_closest_bar(bars, longitude, latitude))
+    show_bars()
